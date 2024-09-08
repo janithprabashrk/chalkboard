@@ -25,7 +25,6 @@ function ViewAssignmentdetails() {
     const date = new Date(dateString);
     return date.toLocaleDateString(); // Formats the date in 'MM/DD/YYYY' format by default
   };
-
   return (
     <Container>
       <Typography variant="h4" sx={{ marginBottom: 3 }}>
