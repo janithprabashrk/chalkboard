@@ -30,3 +30,14 @@ router.route("/add").post(async (req, res) => {
         res.status(500).send({ status: "Error adding student", error: err.message });
     }
 });
+
+// View students
+router.route("/").get(async (req, res) => {
+    try {
+        const students = await Student.find();
+        res.json(students);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: "Error fetching students", error: err.message });
+    }
+});
