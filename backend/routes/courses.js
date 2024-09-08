@@ -62,3 +62,22 @@ router.route("/update").put(async (req, res) => {
   }
 });
 
+
+
+
+
+// Delete course
+router.route("/delete").delete(async (req, res) => {
+    const {  courseId } = req.body;
+
+    try {
+        await Course.findOneAndDelete({courseId});
+        res.status(200).send({ status: "Course deleted" });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({ status: "Error deleting courses", error: err.message });
+    }
+});
+
+
+module.exports = router;
