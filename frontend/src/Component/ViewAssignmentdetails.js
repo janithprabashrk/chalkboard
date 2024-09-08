@@ -25,3 +25,46 @@ function ViewAssignmentdetails() {
     const date = new Date(dateString);
     return date.toLocaleDateString(); // Formats the date in 'MM/DD/YYYY' format by default
   };
+  return (
+    <Container>
+      <Typography variant="h4" sx={{ marginBottom: 3 }}>
+        {courseName} - Assignments
+      </Typography>
+
+      {error && <Alert severity="error">{error}</Alert>}
+
+      <Paper>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Assignment ID</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Due Date</TableCell>
+              <TableCell>PDF</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {assignments.map((assignment) => (
+              <TableRow key={assignment.assignmentId}>
+                <TableCell>{assignment.assignmentId}</TableCell>
+                <TableCell>{assignment.description}</TableCell>
+                <TableCell>{formatDate(assignment.dueDate)}</TableCell>
+                <TableCell>
+                  {assignment.pdfFile ? (
+                    <a href={`http://localhost:8070/${assignment.pdfFile}`} target="_blank" rel="noopener noreferrer">
+                      View PDF
+                    </a>
+                  ) : (
+                    "No PDF"
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
+    </Container>
+  );
+}
+
+export default ViewAssignmentdetails;
