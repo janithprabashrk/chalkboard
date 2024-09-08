@@ -27,3 +27,14 @@ router.route("/add").post(async (req, res) => {
         res.status(500).send({ status: "Error adding student", error: err.message });
     }
 });
+
+//view
+router.route("/view").get(async (req, res) => {
+    try {
+        const course = await Course.find();
+        res.json(course);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: "Error fetching courses", error: err.message });
+    }
+});
