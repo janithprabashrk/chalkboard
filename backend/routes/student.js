@@ -41,3 +41,38 @@ router.route("/").get(async (req, res) => {
         res.status(500).send({ status: "Error fetching students", error: err.message });
     }
 });
+
+// Update student
+router.route("/update").put(async (req, res) => {
+    const { name, newUsername, newAge, newPassword } = req.body;
+
+    try {
+        // Prepare the fields to update
+        const updateFields = {
+            name: newUsername || undefined,
+            age: newAge || undefined,
+        };
+
+        // If newPassword is provided, hash it and include it in the update
+        if (newPassword) {
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(newPassword, salt);
+            updateFields.password = hashedPassword;
+        }
+
+        const updatedStudent = await Student.findOneAndUpdate(
+            { name },
+            updateFields,
+            { new: true } // Return the updated student document
+        );
+
+        if (updatedStudent) {
+            res.status(200).send({ status: "Update successful", user: updatedStudent });
+        } else {
+            res.status(404).send({ status: "Student not found" });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: "Error updating student", error: err.message });
+    }
+});
