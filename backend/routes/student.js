@@ -103,3 +103,24 @@ router.route("/get/").get(async (req, res) => {
         res.status(500).send({ status: "Error fetching student", error: err.message });
     }
 });
+
+// Login student
+router.route("/login").post(async (req, res) => {
+    const { name, password } = req.body;
+
+    try {
+        // Find student by name
+        const student = await Student.findOne({ name });
+
+        if (student && await bcrypt.compare(password, student.password)) {
+            res.status(200).send({ status: "Login successful", user: student });
+        } else {
+            res.status(401).send({ status: "Invalid credentials" });
+        }
+    } catch (err) {
+        console.error('Error during login:', err);
+        res.status(500).send({ status: "Error logging in", error: err.message });
+    }
+});
+
+module.exports = router;
