@@ -28,6 +28,7 @@ function ViewAssignment() {
     const date = new Date(dateString);
     return date.toLocaleDateString(); // Formats the date in 'MM/DD/YYYY' format by default
   };
+  
   const deleteAssignment = async (assignmentId) => {
     try {
       await axios.delete(`http://localhost:8070/assignment/delete?assignmentId=${assignmentId}`);
