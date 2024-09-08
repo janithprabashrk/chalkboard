@@ -112,3 +112,23 @@ router.route("/delete").delete(async (req, res) => {
         res.status(500).json({ message: "Error deleting assignment", error: error.message });
     }
 });
+
+//get Assigment Using courseId
+router.route("/getass").get(async(req,res)=>{
+    const { courseId } = req.query;
+    try{
+        const assigments = await Assignment.find({courseId});
+        if(!assigments.length){
+            return res.status(404).json({messag: " Assigment not found"});
+
+        }
+        res.status(200).json(assigments);
+        
+    }catch(error){
+        res.status(500).json({message: "Error retrieving assigment",error});
+    }
+
+});
+
+
+module.exports = router;
