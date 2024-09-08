@@ -86,5 +86,38 @@ router.route("/delete").delete(async (req, res) => {
     }
 });
 
+// Get admin by ID
+router.route("/get/").get(async (req, res) => {
+    const { adminId } = req.query;
+
+    try {
+        const admin = await Admin.findOne({ adminId });
+        res.status(200).send({ status: "User fetched", user: admin });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: "Error fetching admin", error: err.message });
+    }
+});
+
+
+// Login Admin
+router.route("/login").post(async (req, res) => {
+    const { adminName, adminPassword } = req.body;
+
+    try {
+        // Find admin by name
+        const admin = await Admin.findOne({ adminName });
+
+        if (admin && await bcrypt.compare(adminPassword, admin.adminPassword)) { // Compare hashed passwords
+            res.status(200).send({ status: "Login successful", adminId: admin.adminId });
+        } else {
+            res.status(401).send({ status: "Invalid credentials" });
+        }
+    } catch (err) {
+        console.error('Error during login:', err);
+        res.status(500).send({ status: "Error logging in", error: err.message });
+    }
+});
+
 
 module.exports = router;
