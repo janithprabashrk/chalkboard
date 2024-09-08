@@ -86,5 +86,18 @@ router.route("/delete").delete(async (req, res) => {
     }
 });
 
+// Get admin by ID
+router.route("/get/").get(async (req, res) => {
+    const { adminId } = req.query;
+
+    try {
+        const admin = await Admin.findOne({ adminId });
+        res.status(200).send({ status: "User fetched", user: admin });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: "Error fetching admin", error: err.message });
+    }
+});
+
 
 module.exports = router;
