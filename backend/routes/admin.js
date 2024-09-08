@@ -34,5 +34,17 @@ router.route("/add").post(async (req, res) => {
     }
 });
 
+// View admins
+router.route("/").get(async (req, res) => {
+    try {
+        const admins = await Admin.find();
+        res.json(admins);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: "Error fetching admins", error: err.message });
+    }
+});
+
+
 
 module.exports = router;
