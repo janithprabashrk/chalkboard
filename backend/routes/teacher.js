@@ -92,3 +92,35 @@ router.route("/update").put(async (req, res) => {
     }
   });
   
+router.route("/delete").delete(async (req, res) => {
+    const { teacherId, password } = req.body;
+  
+    try {
+      // console.log('Received Name:', name);
+      // console.log('Received Password:', password);
+  
+      // Find the teacher by name
+      const teacher = await Teacher.findOne({ teacherId });
+  
+      if (!teacher) {
+        return res.status(404).send({ status: "Teacher not found" });
+      }
+  
+      // Compare the provided password with the stored hashed password
+      const isMatch = await bcrypt.compare(password, teacher.password);
+  
+      console.log('Password Match:', isMatch); // Log password comparison result
+  
+      if (isMatch) {
+        await Teacher.findOneAndDelete({ teacherId });
+        res.status(200).send({ status: "Teacher deleted" });
+      } else {
+        res.status(401).send({ status: "Invalid credentials" });
+      }
+    } catch (err) {
+      console.log('Error:', err.message);
+      res.status(500).send({ status: "Error deleting teacher", error: err.message });
+    }
+  });
+  
+  module.exports = router;
