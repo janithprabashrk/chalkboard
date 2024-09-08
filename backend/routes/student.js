@@ -76,3 +76,18 @@ router.route("/update").put(async (req, res) => {
         res.status(500).send({ status: "Error updating student", error: err.message });
     }
 });
+
+
+// Delete student
+router.route("/delete").delete(async (req, res) => {
+    const { name } = req.body;
+
+    try {
+        await Student.findOneAndDelete({ name });
+        res.status(200).send({ status: "User deleted" });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({ status: "Error deleting student", error: err.message });
+    }
+});
+
