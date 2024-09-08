@@ -34,3 +34,30 @@ router.route("/add").post(async (req, res) => {
     res.status(500).send({ status: "Error adding teacher", error: err.message });
   }
 });
+
+// Login route with password verification
+router.route("/login").post(async (req, res) => {
+    const { name, password } = req.body;
+  
+    try {
+      // Find teacher by name
+      const teacher = await Teacher.findOne({ name });
+  
+      if (!teacher) {
+        return res.status(401).send({ status: "Invalid credentials" });
+      }
+  
+      // Compare the provided password with the hashed password
+      const isMatch = await bcrypt.compare(password, teacher.password);
+  
+      if (isMatch) {
+        res.status(200).send({ status: "Login successful", teacherId: teacher.teacherId, user: teacher });
+      } else {
+        res.status(401).send({ status: "Invalid credentials" });
+      }
+    } catch (err) {
+      console.error('Error during login:', err);
+      res.status(500).send({ status: "Error logging in", error: err.message });
+    }
+  });
+  
