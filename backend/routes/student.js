@@ -91,3 +91,15 @@ router.route("/delete").delete(async (req, res) => {
     }
 });
 
+// Get student by name
+router.route("/get/").get(async (req, res) => {
+    const { name } = req.query;
+
+    try {
+        const student = await Student.findOne({ name });
+        res.status(200).send({ status: "User fetched", user: student });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: "Error fetching student", error: err.message });
+    }
+});
