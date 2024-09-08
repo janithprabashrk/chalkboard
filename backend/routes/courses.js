@@ -38,3 +38,27 @@ router.route("/view").get(async (req, res) => {
         res.status(500).send({ status: "Error fetching courses", error: err.message });
     }
 });
+
+
+// Update course details
+router.route("/update").put(async (req, res) => {
+  const { courseId, newcoursename,newNoofstudents,newcoursefee,newlecturename,newduration } = req.body;
+
+  try {
+      const updatedCourse = await Course.findOneAndUpdate(
+          { courseId },
+          { courseName: newcoursename, NoOfStudent: newNoofstudents,courseFee:newcoursefee,lectureName:newlecturename,Duration:newduration},
+          { new: true }
+      );
+
+      if (updatedCourse) {
+          res.status(200).send({ status: "Update successful", user: updatedCourse });
+      } else {
+          res.status(404).send({ status: "course not found" });
+      }
+  } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: "Error updating course", error: err.message });
+  }
+});
+
