@@ -61,3 +61,34 @@ router.route("/login").post(async (req, res) => {
     }
   });
   
+  
+// Update Teacher route with password hashing
+router.route("/update").put(async (req, res) => {
+    const { teacherId, name, newUsername, newage, newpassword } = req.body;
+  
+    try {
+      let hashedPassword = newpassword;
+  
+      // Hash the new password before updating if provided
+      if (newpassword) {
+        const salt = await bcrypt.genSalt(10);
+        hashedPassword = await bcrypt.hash(newpassword, salt);
+      }
+  
+      const updatedTeacher = await Teacher.findOneAndUpdate(
+        { teacherId },
+        { name: newUsername, age: newage, password: hashedPassword },
+        { new: true }
+      );
+  
+      if (updatedTeacher) {
+        res.status(200).send({ status: "Update successful", user: updatedTeacher });
+      } else {
+        res.status(404).send({ status: "Teacher not found" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: "Error updating teacher", error: err.message });
+    }
+  });
+  
