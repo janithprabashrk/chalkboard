@@ -1,25 +1,65 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Home from './Component/home';
+import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
+import StudentLogin  from './Component/StudentLogin';
+import TeacherLogin from './Component/teacherLogin';
+import AdminLogin from './Component/Adminlogin';
+import StudentInterface from './Component/StudentInterface';
+import Teacherinterface from './Component/teacherinterface';
+import Studentreg from './Component/studentreg';
+// import ViewStudent from './Component/viewStudent';
+import Header from './Component/header';
+import TeacherReg from './Component/teacherreg';
+import Addcourses from './Component/addcourses';
+import Viewcourse from './Component/viewcourse';
+import Deletecourse from './Component/deletecourse';
+import Adminreg from './Component/adminreg';
+import AdminInterface from './Component/adminInterface';
+import Addminviewcourses from './Component/addminviewcourses';
+import ViewAssignmentdetails from './Component/ViewAssignmentdetails';
+import About from './Component/About';
+import Contact from './Component/Contact';
+import MyHome from './Component/MyHome';
+import ViewAssignment from './Component/TeacherViewAssignment';
+import ContactUs from './HomeComps/ContactUs/ContactUs2';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+          <Header/>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/home" element={<MyHome />} />
+            <Route path="/studentlogin" element={<StudentLogin/>}/>
+            <Route path="/teacherlogin" element={<TeacherLogin/>}/>
+            <Route path="/adminlogin" element={<AdminLogin/>}/>
+            <Route path="/studentinterface" element={<StudentInterface/>}/>
+            <Route path="/teacherinterface" element={<Teacherinterface/>}/>
+            <Route path='/studentreg' element={<Studentreg/>}/>
+            {/* <Route path='/viewstudent' element={<ViewStudent/>}/> */}
+            <Route path='/teacherreg' element={<TeacherReg/>}/>
+            <Route path='/add-course' element={<Addcourses/>}/>
+            <Route path='/view-courses' element={<Viewcourse/>}/>
+            <Route path='/delete-course' element={<Deletecourse/>}/>
+            <Route path='/adminreg'element={<Adminreg/>}/>
+            <Route path='/admininterface' element={<AdminInterface/>}/>
+            <Route path='/addmin-view-courses' element={<Addminviewcourses/>}/>
+            <Route path='/viewassignment' element={<ViewAssignmentdetails/>}/>
+            <Route path="/about" element={<About />} />
+            {/* <Route path="/Contact" element={<Contact />} /> */}
+            <Route path="/contact" element={<ContactUs /> } />
+            <Route path='/teacherviewassignment' element={<ViewAssignment/>}/>
+
+
+            </Routes>
+      </Router>
+      
+      
     </div>
-  );
+  );  
+
 }
 
 export default App;
